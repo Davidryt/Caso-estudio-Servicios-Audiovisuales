@@ -10,9 +10,15 @@ import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.headless.HeadlessMediaPlayer;
+
 
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
+
+
+
 
 public class Server {
     
@@ -34,7 +40,10 @@ public class Server {
         mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
         
         frame.setContentPane(mediaPlayerComponent);
-        
+        frame.setBounds(100, 100, 600, 400);
+
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setVisible(true);
         //TO DO! choose the correct arguments for the methods below. Add more method calls as necessary
         //frame.setLocation(...);
         //frame.setSize(...);
@@ -43,5 +52,29 @@ public class Server {
         
         //TO DO!! configure the video delivery via RTP
         //...
+
+        String media = args[0];
+        String options = formatRtpStream("127.0.0.1", 6969);
+        
+        mediaPlayerComponent.getMediaPlayer().playMedia(media,
+        options,
+        ":no-sout-rtp-sap",
+        ":no-sout-standard-sap",
+        ":sout-all",
+        ":sout-keep"
+        );
+
     }
+
+    private static String formatRtpStream(String serverAddress, int serverPort) {
+        StringBuilder sb = new StringBuilder(60);
+        sb.append(":sout=#rtp{dst=");
+        sb.append(serverAddress);
+        sb.append(",port=");
+        sb.append(serverPort);
+        sb.append(",mux=ts}");
+    return sb.toString();
+}
+    
+
 }
