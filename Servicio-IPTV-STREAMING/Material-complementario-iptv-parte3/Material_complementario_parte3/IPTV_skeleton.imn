@@ -1,0 +1,326 @@
+node n3 {
+    type lanswitch
+    network-config {
+	hostname Switch
+	!
+    }
+    canvas c1
+    iconcoords {709.0 505.0}
+    labelcoords {756.0 513.0}
+    interface-peer {e1 n4}
+    interface-peer {e2 n5}
+    interface-peer {e0 n1}
+}
+
+node n4 {
+    type router
+    model host
+    network-config {
+	hostname DNS
+	!
+	interface eth0
+	 ip address 10.0.0.10/24
+	 ipv6 address 2001:0::10/64
+	!
+    }
+    canvas c1
+    iconcoords {607.0 600.0}
+    labelcoords {605.0 640.0}
+    interface-peer {eth0 n3}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	dirs=('/etc/dnsmasq.d', '/etc/default', '/var/run/dnsmasq', '/tmp', )
+	files=('/etc/dnsmasq.d/dnsmasq.conf', '/tmp/hosts', 'startdnsmasq.sh', )
+	cmdup=('sh startdnsmasq.sh', )
+	cmddown=('killall dnsmasq', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:startdnsmasq.sh
+	custom-command startdnsmasq.sh
+	config {
+	#!/bin/sh
+	chmod 655 /var/run/dnsmasq
+	/usr/sbin/dnsmasq -C /etc/dnsmasq.d/dnsmasq.conf
+	
+	
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/tmp/hosts
+	custom-command /tmp/hosts
+	config {
+	239.0.0.1 NationalGeographic.video.lan NationalGeographic
+	239.0.0.2 LaLiga.video.lan LaLiga
+	
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/etc/dnsmasq.d/dnsmasq.conf
+	custom-command /etc/dnsmasq.d/dnsmasq.conf
+	config {
+	bogus-priv
+	no-resolv
+	no-poll
+	server=8.8.8.8
+	local=/video.lan/
+	no-dhcp-interface=eth0
+	no-hosts
+	addn-hosts=/tmp/hosts
+	expand-hosts
+	domain=video.lan
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
+node n5 {
+    type router
+    model host
+    network-config {
+	hostname VideoClient
+	!
+	interface eth0
+	 ip address 10.0.0.11/24
+	 ipv6 address 2001:0::11/64
+	!
+    }
+    canvas c1
+    iconcoords {810.0 601.0}
+    labelcoords {810.0 641.0}
+    interface-peer {eth0 n3}
+}
+
+node n6 {
+    type router
+    model host
+    network-config {
+	hostname IPTV
+	!
+	interface eth0
+	 ip address 10.0.1.10/24
+	 ipv6 address 2001:1::10/64
+	!
+    }
+    canvas c1
+    iconcoords {457.0 53.0}
+    labelcoords {493.0 63.0}
+    services {DefaultRoute HTTP SSH}
+    custom-config {
+	custom-config-id service:HTTP
+	custom-command HTTP
+	config {
+	dirs=('/etc/apache2', '/var/run/apache2', '/var/log/apache2', '/var/lock/apache2', '/var/www', '/run/lock', )
+	}
+    }
+    interface-peer {eth0 n7}
+}
+
+node n8 {
+    type router
+    model host
+    network-config {
+	hostname VideoServer
+	!
+	interface eth0
+	 ip address 10.0.2.10/24
+	 ipv6 address 2001:2::10/64
+	!
+    }
+    canvas c1
+    iconcoords {195.0 586.0}
+    labelcoords {191.0 628.0}
+    interface-peer {eth0 n2}
+}
+
+node n1 {
+    type router
+    model router
+    network-config {
+	hostname Router1
+	!
+	interface eth1
+	 ip address 10.0.5.2/24
+	 ipv6 address 2001:5::2/64
+	!
+	interface eth2
+	 ip address 10.0.3.1/24
+	 ipv6 address 2001:3::1/64
+	!
+	interface eth0
+	 ip address 10.0.0.1/24
+	 ipv6 address 2001:0::1/64
+	!
+    }
+    canvas c1
+    iconcoords {707.0 410.0}
+    labelcoords {763.0 419.0}
+    interface-peer {eth0 n3}
+    interface-peer {eth2 n2}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	dirs=('/tmp', )
+	files=('/tmp/pimd.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/tmp/pimd.conf
+	custom-command /tmp/pimd.conf
+	config {
+	file:///etc/pimd.conf
+	}
+    }
+    services {IPForward UserDefined}
+    interface-peer {eth1 n7}
+}
+
+node n2 {
+    type router
+    model router
+    network-config {
+	hostname Router2
+	!
+	interface eth2
+	 ip address 10.0.4.2/24
+	 ipv6 address 2001:4::2/64
+	!
+	interface eth1
+	 ip address 10.0.3.2/24
+	 ipv6 address 2001:3::2/64
+	!
+	interface eth0
+	 ip address 10.0.2.1/24
+	 ipv6 address 2001:2::1/64
+	!
+    }
+    canvas c1
+    iconcoords {194.0 410.0}
+    labelcoords {134.0 418.0}
+    interface-peer {eth0 n8}
+    interface-peer {eth1 n1}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	dirs=('/tmp', )
+	files=('/tmp/pimd.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/tmp/pimd.conf
+	custom-command /tmp/pimd.conf
+	config {
+	file:///etc/pimd.conf
+	}
+    }
+    services {IPForward UserDefined}
+    interface-peer {eth2 n7}
+}
+
+node n7 {
+    type router
+    model router
+    network-config {
+	hostname Router3
+	!
+	interface eth2
+	 ip address 10.0.5.1/24
+	 ipv6 address 2001:5::1/64
+	!
+	interface eth1
+	 ip address 10.0.4.1/24
+	 ipv6 address 2001:4::1/64
+	!
+	interface eth0
+	 ip address 10.0.1.1/24
+	 ipv6 address 2001:1::1/64
+	!
+    }
+    canvas c1
+    iconcoords {456.0 168.0}
+    labelcoords {455.0 221.0}
+    interface-peer {eth0 n6}
+    interface-peer {eth1 n2}
+    interface-peer {eth2 n1}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	dirs=('/tmp', )
+	files=('/tmp/pimd.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/tmp/pimd.conf
+	custom-command /tmp/pimd.conf
+	config {
+	file:///etc/pimd.conf
+	}
+    }
+    services {IPForward UserDefined}
+}
+
+link l2 {
+    nodes {n4 n3}
+    bandwidth 0
+}
+
+link l3 {
+    nodes {n5 n3}
+    bandwidth 0
+}
+
+link l1 {
+    nodes {n1 n3}
+    bandwidth 0
+}
+
+link l5 {
+    nodes {n2 n8}
+    bandwidth 0
+}
+
+link l6 {
+    nodes {n1 n2}
+    bandwidth 0
+}
+
+link l4 {
+    nodes {n6 n7}
+    bandwidth 0
+}
+
+link l7 {
+    nodes {n7 n2}
+    bandwidth 0
+}
+
+link l8 {
+    nodes {n7 n1}
+    bandwidth 0
+}
+
+canvas c1 {
+    name {Canvas1}
+}
+
+option global {
+    interface_names no
+    ip_addresses yes
+    ipv6_addresses no
+    node_labels yes
+    link_labels yes
+    show_api no
+    background_images no
+    annotations yes
+    grid no
+    traffic_start 0
+}
+
+option session {
+}
+
