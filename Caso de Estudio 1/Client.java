@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.SwingUtilities;
-import vlcj-3.10.1*;
+//import vlcj-3.10.1*;
 
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
@@ -75,7 +75,7 @@ public class Client{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TO DO!! configure the playback of the video received via RTP, or resume a paused playback.
-                mediaPlayerComponent.getMediaPlayer().playMedia(args[0]);
+                mediaPlayerComponent.getMediaPlayer().playMedia("rtp://127.0.0.1:6969");
             }
         });
         

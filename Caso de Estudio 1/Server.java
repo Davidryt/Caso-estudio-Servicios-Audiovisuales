@@ -53,9 +53,17 @@ public class Server {
         //TO DO!! configure the video delivery via RTP
         //...
 
+        if(args.length != 1) {
+            System.out.println("Specify a single MRL to stream");
+            System.exit(1);
+        }
+
+
         String media = args[0];
         String options = formatRtpStream("127.0.0.1", 6969);
         
+        System.out.println("Streaming '" + media + "' to '" + options + "'");
+
         mediaPlayerComponent.getMediaPlayer().playMedia(media,
         options,
         ":no-sout-rtp-sap",
