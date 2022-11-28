@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.SwingUtilities;
-//import vlcj-3.10.1*;
+//import vlcj-3.10.1*;   alex eres bobo
 
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
@@ -34,10 +34,7 @@ public class Client{
         
         frame = new JFrame("Media Player");
         frame.setBounds(100, 100, 600, 400);
-        //TO DO! choose the correct arguments for the methods below. Add more method calls as necessary
-        //frame.setLocation(...);
-        //frame.setSize(...);
-        //...
+
         
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
@@ -55,10 +52,6 @@ public class Client{
         contentPane.add(mediaPlayerComponent, BorderLayout.CENTER);
         
         JPanel controlsPane = new JPanel();
-        
-        //Definition of PLAY button
-        
-        //----------------------
         JButton playButton = new JButton("Play");
         controlsPane.add(playButton);
 
@@ -68,7 +61,27 @@ public class Client{
         JButton stopButton = new JButton("Stop");
         controlsPane.add(stopButton);
         contentPane.add(controlsPane, BorderLayout.SOUTH);
+
+        JPanel navbar = new JPanel();
+        JTextField navurl =new JTextField(40);
+        navbar.add(navurl);
         
+        JButton goButton = new JButton("GO");
+        navbar.add(goButton);
+        
+        
+        contentPane.add(navbar, BorderLayout.NORTH);
+        
+        goButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TO DO!! configure the playback of the video received via RTP, or resume a paused playback.
+                String url=navurl.getText();
+                mediaPlayerComponent.getMediaPlayer().playMedia(url);
+            }
+        });
+
+
         //Handler for PLAY button
         //-----------------------
         playButton.addActionListener(new ActionListener() {
@@ -146,7 +159,7 @@ public class Client{
 
         frame.setContentPane(contentPane);
         frame.setVisible(true);
-        mediaPlayerComponent.getMediaPlayer().playMedia("rtp://127.0.0.1:6969");
+        //mediaPlayerComponent.getMediaPlayer().playMedia("rtp://127.0.0.1:6969");
 
         
         
