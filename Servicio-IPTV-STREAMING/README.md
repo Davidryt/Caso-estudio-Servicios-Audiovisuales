@@ -4,7 +4,7 @@ Metete como super
 
 Colocate en la carpeta correcta 
 
-cd -r /home/labsma/Desktop/Caso-estudio-Servicios-Audiovisuales/Servicio-IPTV-STREAMING/DNS
+cd /home/labsma/Desktop/Caso-estudio-Servicios-Audiovisuales/Servicio-IPTV-STREAMING/DNS
 
 Añadimos los nuevos hosts
 
