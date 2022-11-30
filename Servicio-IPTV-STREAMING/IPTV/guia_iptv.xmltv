@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE tv SYSTEM "xmltv.dtd">
+
+<tv source-info-url="http://www.MyIPTV.video.lan/" source-info-name="My IPTV" generator-info-name="XMLTV/$Id: tv_grab_na_dd.in,v 1.70 2020/09/10 18:00:03 rmeden Exp $" generator-info-url="http://www.xmltv.org/">
+  <channel id="national-geographic">
+    <display-name>1 National Geographic</display-name>
+    <url>rtp://NationalGeographic.video.lan:1234</url>
+  </channel>
+  <channel id="movistar-la-liga">
+    <display-name>Movistar La Liga</display-name>
+    <url>rtp://LaLiga.video.lan:1234</url>
+  </channel>
+</tv>
