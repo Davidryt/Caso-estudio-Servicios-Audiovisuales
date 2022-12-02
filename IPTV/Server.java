@@ -77,10 +77,10 @@ public class Server {
 
 
         String media1 = args[0];
-        String options1 = formatRtpStream("127.0.0.1", 5004);
+        String options1 = formatRtpStream("239.0.0.1", 5004);
 
         String media2 = args[1];
-        String options2 = formatRtpStream("127.0.0.1", 5014);
+        String options2 = formatRtpStream("239.0.0.2", 5014);
         
         System.out.println("Streaming '" + media1 + "' to '" + options1 + "'");
         System.out.println("Streaming '" + media2 + "' to '" + options2 + "'");
