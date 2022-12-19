@@ -4,4 +4,7 @@ echo ------COMPILECLIENT------
 
 
 echo ------EXECUTECLIENT------
-sudo -u labsma /usr/dist/jdk1.8.0_141/bin/java -cp .:`echo ./vlcj-3.10.1/*.jar | tr ' ' ':'` Client
+
+export DISPLAY=:0
+
+sudo -u labsma /usr/dist/jdk1.8.0_141/bin/java -cp .:`echo ./vlcj-3.10.1/*.jar | tr ' ' ':'` Client 

@@ -4,4 +4,3 @@ cd /home/labsma/Desktop/Caso-estudio-Servicios-Audiovisuales/Servicio-IPTV-STREA
 cp -r hosts /tmp/hosts
 killall dnsmasq
 /usr/sbin/dnsmasq -C /etc/dnsmasq.d/dnsmasq.conf
-
